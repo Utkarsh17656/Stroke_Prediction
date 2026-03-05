@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrokeRisk AI 2.0 | Next-Gen Health Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="badge">v2.0 PROPOSAL VERSION</div>
+            <div class="logo">
+                <span class="icon">🧬</span>
+                <h1>StrokeRisk <span class="ai">AI 2.0</span></h1>
+            </div>
+            <p class="subtitle">Utilizing 2025 Synthetic Data & Framingham Clinical Markers</p>
+        </header>
+
+        <section class="card glass">
+            <form action="/predict" method="post" class="grid-form">
+
+                <!-- Section 1: Demographics -->
+                <div class="form-section-title">Lifestyle & Profile</div>
+
+                <div class="input-group">
+                    <label>Patient Age</label>
+                    <input type="number" name="age" required placeholder="Years">
+                </div>
+                <div class="input-group">
+                    <label>Gender</label>
+                    <select name="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Cigarettes Per Day 🚬</label>
+                    <input type="number" name="cigs_per_day" required value="0" min="0">
+                </div>
+
+                <div class="input-group">
+                    <label>Work Profile</label>
+                    <select name="work_type">
+                        <option value="Private">Private</option>
+                        <option value="Govt_job">Government</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="children">Student</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Ever Married?</label>
+                    <select name="ever_married">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Residence Type</label>
+                    <select name="residence_type">
+                        <option value="Urban">Urban</option>
+                        <option value="Rural">Rural</option>
+                    </select>
+                </div>
+
+                <!-- Section 2: Clinical Metrics -->
+                <div class="form-section-title">Clinical Metrics</div>
+
+                <div class="input-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" name="weight" id="weight" step="0.1" required>
+                </div>
+                <div class="input-group">
+                    <label>Height (cm)</label>
+                    <input type="number" name="height" id="height" step="0.1" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="check-box">
+                        <input type="checkbox" name="hypertension" value="1">
+                        <span>Diagnosed Hypertension</span>
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label class="check-box">
+                        <input type="checkbox" name="heart_disease" value="1">
+                        <span>Heart Disease History</span>
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <label>Average Glucose Level (mg/dL)</label>
+                    <input type="number" name="avg_glucose_level" id="glucose" step="0.1" placeholder="e.g. 95.0">
+                    <label class="check-box" style="margin-top: 5px; border:none; padding:0; background:none;">
+                        <input type="checkbox" name="no_test" value="true">
+                        <span style="font-size: 0.75rem;">Not tested (Uses baseline 95.0)</span>
+                    </label>
+                </div>
+
+                <!-- Section 3: Diagnostic Symptoms -->
+                <div class="form-section-title">Diagnostic Symptoms (New to 2.0)</div>
+
+                <div class="symptom-grid"
+                    style="grid-column: 1/-1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <label class="check-box"><input type="checkbox" name="dizziness"> <span>Dizziness</span></label>
+                    <label class="check-box"><input type="checkbox" name="chest_pain"> <span>Chest Pain</span></label>
+                    <label class="check-box"><input type="checkbox" name="breath_shortness"> <span>Shortness of
+                            Breath</span></label>
+                    <label class="check-box"><input type="checkbox" name="fatigue"> <span>Unexplained
+                            Fatigue</span></label>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn-primary">Generate 2.0 Dynamic Assessment</button>
+                    <p style="font-size: 0.7rem; color: #64748b; margin-top: 10px;">Research-grade inference based on
+                        50,000 synthetic clinical records.</p>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer style="margin-top: 50px; text-align: center; color: #64748b;">
+        <p>&copy; 2026 StrokeRisk AI 2.0 Proposal &bull; Advanced Medical Analytics</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.env
+.venv/
+env/
+
+# Datasets (Optional: omit if you want them inside the container, 
+# but usually we only need the .joblib models for production)
+# Framingham Dataset.csv
+# stroke_risk_dataset.csv
+# synthetic_stroke_data.csv
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml

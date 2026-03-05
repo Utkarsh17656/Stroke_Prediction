@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 2.0 Analysis Result | StrokeRisk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="badge">AI 2.0 HIGH-FIDELITY REPORT</div>
+            <h1>Assessment <span class="ai">Dashboard</span></h1>
+        </header>
+
+        <section class="card glass" style="text-align: center;">
+            <div class="prob-circle" style="margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 5rem; font-weight: 800; background: linear-gradient(to right, #8b5cf6, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    {{ probability }}%</h2>
+                <p style="color: #9ca3af; font-weight: 600;">Neural Network Confidence Score</p>
+            </div>
+
+            <div class="risk-badge-2"
+                style="background: #1e1b4b; padding: 15px 30px; border-radius: 50px; border: 2px solid #4338ca; display: inline-block; margin-bottom: 2rem;">
+                <span style="font-size: 1.2rem; font-weight: 700; color: #818cf8;">{{ risk }} Risk Detected</span>
+            </div>
+
+            <div class="metrics-grid-2"
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: left; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px;">
+                <div class="m-box">
+                    <label
+                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">BMI</label>
+                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.bmi }}</span>
+                </div>
+                <div class="m-box">
+                    <label
+                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">Cigs/Day</label>
+                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.cigs }}</span>
+                </div>
+                <div class="m-box">
+                    <label
+                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">Target
+                        Age</label>
+                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.age }}</span>
+                </div>
+            </div>
+
+            <div class="info-text"
+                style="margin-top: 2rem; color: #9ca3af; line-height: 1.6; text-align: left; font-size: 0.9rem;">
+                <p><strong>Note:</strong> {{ patient_info.risk_desc }}</p>
+                <p style="margin-top: 10px;">This assessment factors in smoking intensity and multi-symptom diagnostic
+                    indicators not available in earlier versions of StrokeRisk AI.</p>
+            </div>
+
+            <a href="/"
+                style="display: inline-block; margin-top: 2rem; color: #8b5cf6; text-decoration: none; font-weight: 700;">←
+                New Analysis</a>
+        </section>
+    </main>
+</body>
+
+</html>
