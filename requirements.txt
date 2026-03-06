@@ -10,3 +10,4 @@ lightgbm
 joblib
 matplotlib
 seaborn
+starlette
