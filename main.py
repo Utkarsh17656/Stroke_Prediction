@@ -39,7 +39,11 @@ if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.route("/predict", methods=["GET", "POST"])
+@app.get("/predict")
+async def predict_get():
+    return RedirectResponse(url="/", status_code=303)
+
+@app.post("/predict")
 async def predict(
     request: Request,
     gender: str = Form(...),
@@ -60,10 +64,6 @@ async def predict(
     breath_shortness: bool = Form(False),
     fatigue: bool = Form(False)
 ):
-    # Handle GET requests (likely redirects from POST due to protocol mismatch)
-    if request.method == "GET":
-        return RedirectResponse(url="/", status_code=303)
-
     try:
         if not model or not scaler:
             return HTMLResponse(content="<h1>AI 2.0 Model Not Trained</h1><p>Please run <code>python app.py</code> after placing the 2025 datasets in this folder.</p>", status_code=500)
