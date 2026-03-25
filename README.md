@@ -1,22 +1,29 @@
-# StrokeRisk AI 2.0 - Project Instructions
+# StrokeRisk AI 3.0 - Project Instructions
 
-This project has been updated to support one-click execution and fixed paths after being moved to a new directory.
+This project supports one-click execution with an upgraded calibrated ML pipeline for more stable and realistic risk probabilities.
 
 ## One-Click Scripts
 
-- **Run_Stroke_AI.bat**: Start the web server and the AI model. 
+- **Run_Stroke_AI.bat**: Start the web server using the latest trained model artefacts.
   - Access the application at: `http://127.0.0.1:8000`
-- **Train_Model.bat**: Re-run the data pipeline to merge datasets and retrain the model.
-  - Use this if you update any of the CSV data files.
+- **Train_Model.bat**: Re-run the data pipeline and retrain the model.
+  - You only need to run this when your CSV datasets change or when you intentionally want to rebuild the model.
+  - You do **not** need to run this every time before starting the web app.
 
 ## Project Structure
 
-- `main.py`: FastAPI web server logic.
-- `app.py`: Data processing and model training pipeline.
+- `main.py`: FastAPI web server and inference logic.
+- `app.py`: Data processing and calibrated model training pipeline.
 - `requirements.txt`: List of Python dependencies.
 - `venv/`: Local virtual environment containing all necessary packages.
 - `static/` & `templates/`: Frontend assets and HTML.
-- `*.joblib`: Serialized AI model, scaler, and feature list.
+- `stroke_model_bundle_v3.joblib`: Serialized calibrated model + threshold + feature metadata.
+- Legacy files (`stroke_model_v2.joblib`, `scaler_v2.joblib`, `features_v2.joblib`) are kept for backward compatibility.
+
+## Model Notes
+
+- Current default model: calibrated gradient boosting classifier.
+- Why it is better: handles missing fields safely, avoids hard-coded fake values for unavailable columns, and uses validation-tuned thresholding for better practical decision consistency.
 
 ## Docker Execution (Containerized)
 

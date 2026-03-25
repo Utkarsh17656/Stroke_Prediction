@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StrokeRisk AI 2.0 | Next-Gen Health Assessment</title>
+    <title>Brain Stroke Risk Predictor 2.0 | Advanced Health Analytics</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -13,15 +13,16 @@
     <div class="background-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
     <main class="container">
         <header>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Mode">
+                <span id="theme-icon">🌙</span>
+            </button>
             <div class="badge">v2.0 PROPOSAL VERSION</div>
             <div class="logo">
-                <span class="icon">🧬</span>
-                <h1>StrokeRisk <span class="ai">AI 2.0</span></h1>
+                <h1>Brain Stroke Risk <span class="ai">Predictor 2.0</span></h1>
             </div>
             <p class="subtitle">Utilizing 2025 Synthetic Data & Framingham Clinical Markers</p>
         </header>
@@ -124,16 +125,39 @@
 
                 <div class="btn-container">
                     <button type="submit" class="btn-primary">Generate 2.0 Dynamic Assessment</button>
-                    <p style="font-size: 0.7rem; color: #64748b; margin-top: 10px;">Research-grade inference based on
-                        50,000 synthetic clinical records.</p>
+                    <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 15px; text-align: center;">Advanced
+                        inference
+                        based on 50,000 synthetic clinical records.</p>
+                    <p style="font-size: 0.78rem; opacity: 0.78; margin-top: 6px; text-align: center;">Model training is
+                        only needed when CSV datasets change, not before every run.</p>
                 </div>
             </form>
         </section>
     </main>
 
-    <footer style="margin-top: 50px; text-align: center; color: #64748b;">
-        <p>&copy; 2026 StrokeRisk AI 2.0 Proposal &bull; Advanced Medical Analytics</p>
+    <footer>
+        <p>&copy; 2026 Utkarsh Yadav | Brain Stroke Risk Predictor 2.0 | Advanced Medical Analytics</p>
     </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            themeIcon.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            themeIcon.textContent = isLight ? '☀️' : '🌙';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+    </script>
 </body>
 
 </html>

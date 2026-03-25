@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 2.0 Analysis Result | StrokeRisk</title>
+    <title>Risk Assessment Report | Brain Stroke Risk Predictor 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -17,55 +17,89 @@
 
     <main class="container">
         <header>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Mode">
+                <span id="theme-icon">🌙</span>
+            </button>
             <div class="badge">AI 2.0 HIGH-FIDELITY REPORT</div>
             <h1>Assessment <span class="ai">Dashboard</span></h1>
         </header>
 
         <section class="card glass" style="text-align: center;">
-            <div class="prob-circle" style="margin-bottom: 2rem;">
-                <h2
-                    style="font-size: 5rem; font-weight: 800; background: linear-gradient(to right, #8b5cf6, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                    {{ probability }}%</h2>
-                <p style="color: #9ca3af; font-weight: 600;">Neural Network Confidence Score</p>
+            <div class="prob-circle" style="margin-bottom: 2.5rem;">
+                <h2 class="ai" style="font-size: 5.5rem; font-weight: 800; margin-bottom: 0.5rem;">{{ probability }}%
+                </h2>
+                <p style="color: var(--text-muted); font-weight: 600; font-size: 1.1rem;">Neural Network Confidence
+                    Score</p>
             </div>
 
             <div class="risk-badge-2"
-                style="background: #1e1b4b; padding: 15px 30px; border-radius: 50px; border: 2px solid #4338ca; display: inline-block; margin-bottom: 2rem;">
-                <span style="font-size: 1.2rem; font-weight: 700; color: #818cf8;">{{ risk }} Risk Detected</span>
+                style="background: var(--badge-bg); padding: 18px 36px; border-radius: 50px; border: 2px solid var(--badge-border); display: inline-block; margin-bottom: 2.5rem;">
+                <span style="font-size: 1.3rem; font-weight: 700; color: var(--badge-text);">{{ risk }} Risk
+                    Detected</span>
             </div>
 
+            <p style="margin-top: -1.3rem; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+                Decision: <strong>{{ prediction_label }}</strong> at threshold {{ decision_threshold }}%
+            </p>
+
             <div class="metrics-grid-2"
-                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: left; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px;">
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; background: var(--input-bg); padding: 25px; border-radius: 24px; border: 1px solid var(--input-border);">
                 <div class="m-box">
                     <label
-                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">BMI</label>
-                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.bmi }}</span>
+                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">BMI</label>
+                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.bmi }}</span>
                 </div>
                 <div class="m-box">
                     <label
-                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">Cigs/Day</label>
-                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.cigs }}</span>
+                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Cigs/Day</label>
+                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.cigs
+                        }}</span>
                 </div>
                 <div class="m-box">
                     <label
-                        style="display: block; font-size: 0.7rem; color: #6b7280; font-weight: 800; text-transform: uppercase;">Target
+                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Target
                         Age</label>
-                    <span style="font-size: 1.5rem; font-weight: 700;">{{ patient_info.age }}</span>
+                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.age }}</span>
                 </div>
             </div>
 
             <div class="info-text"
-                style="margin-top: 2rem; color: #9ca3af; line-height: 1.6; text-align: left; font-size: 0.9rem;">
+                style="margin-top: 2.5rem; color: var(--text-muted); line-height: 1.7; text-align: left; font-size: 0.95rem;">
                 <p><strong>Note:</strong> {{ patient_info.risk_desc }}</p>
-                <p style="margin-top: 10px;">This assessment factors in smoking intensity and multi-symptom diagnostic
+                <p style="margin-top: 15px;">This assessment factors in smoking intensity and multi-symptom diagnostic
                     indicators not available in earlier versions of StrokeRisk AI.</p>
+                <p style="margin-top: 15px;"><strong>Model:</strong> {{ model_version }}</p>
             </div>
 
             <a href="/"
-                style="display: inline-block; margin-top: 2rem; color: #8b5cf6; text-decoration: none; font-weight: 700;">←
-                New Analysis</a>
+                style="display: inline-block; margin-top: 3rem; color: var(--primary); text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: 0.3s;">
+                ← New Analysis
+            </a>
         </section>
     </main>
+
+    <footer>
+        <p>&copy; 2026 Utkarsh Yadav | Brain Stroke Risk Predictor 2.0 | Advanced Medical Analytics</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            themeIcon.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+            const isLight = body.classList.contains('light-theme');
+            themeIcon.textContent = isLight ? '☀️' : '🌙';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+    </script>
 </body>
 
 </html>
