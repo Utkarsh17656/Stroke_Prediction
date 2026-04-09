@@ -5,7 +5,7 @@ This project supports one-click execution with an upgraded calibrated ML pipelin
 ## One-Click Scripts
 
 - **Run_Stroke_AI.bat**: Start the web server using the latest trained model artefacts.
-  - Access the application at: `http://127.0.0.1:8000`
+  - Access the application at: `http://127.0.0.1:8091` (fallback to `8092` if busy)
 - **Train_Model.bat**: Re-run the data pipeline and retrain the model.
   - You only need to run this when your CSV datasets change or when you intentionally want to rebuild the model.
   - You do **not** need to run this every time before starting the web app.
@@ -24,6 +24,22 @@ This project supports one-click execution with an upgraded calibrated ML pipelin
 
 - Current default model: calibrated gradient boosting classifier.
 - Why it is better: handles missing fields safely, avoids hard-coded fake values for unavailable columns, and uses validation-tuned thresholding for better practical decision consistency.
+- The web app now combines:
+  - **Calibrated ML probability** from the trained model bundle.
+  - **Clinical overlay score** (rule-based, explainable) aligned to major stroke risk factors.
+
+## API and Operational Endpoints
+
+- `GET /healthz`
+  - Returns service status, model-loaded state, model version, and active threshold.
+- `POST /api/v1/predict`
+  - Accepts JSON payload equivalent to the web form fields.
+  - Returns ML probability, risk bands, patient summary, and explainable clinical factors.
+
+## Clinical Safety Notes
+
+- This is a **clinical decision-support tool**, not a diagnostic replacement.
+- Acute warning symptoms (for example chest pain or shortness of breath) should trigger emergency clinical evaluation regardless of model score.
 
 ## Docker Execution (Containerized)
 

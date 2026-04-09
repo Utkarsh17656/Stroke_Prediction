@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risk Assessment Report | Brain Stroke Risk Predictor 2.0</title>
+    <title>Stroke Risk Clinical Report</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -20,66 +20,94 @@
             <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Mode">
                 <span id="theme-icon">🌙</span>
             </button>
-            <div class="badge">AI 2.0 HIGH-FIDELITY REPORT</div>
-            <h1>Assessment <span class="ai">Dashboard</span></h1>
+            <div class="badge">PATIENT RISK REPORT</div>
+            <h1>Stroke Risk <span class="ai">Assessment</span></h1>
         </header>
 
-        <section class="card glass" style="text-align: center;">
-            <div class="prob-circle" style="margin-bottom: 2.5rem;">
-                <h2 class="ai" style="font-size: 5.5rem; font-weight: 800; margin-bottom: 0.5rem;">{{ probability }}%
-                </h2>
-                <p style="color: var(--text-muted); font-weight: 600; font-size: 1.1rem;">Neural Network Confidence
-                    Score</p>
+        <section class="card glass report-card">
+            <div class="hero-metric">
+                <h2 class="ai metric-value">{{ probability }}%</h2>
+                <p class="metric-label">Calibrated ML Stroke Probability</p>
             </div>
 
-            <div class="risk-badge-2"
-                style="background: var(--badge-bg); padding: 18px 36px; border-radius: 50px; border: 2px solid var(--badge-border); display: inline-block; margin-bottom: 2.5rem;">
-                <span style="font-size: 1.3rem; font-weight: 700; color: var(--badge-text);">{{ risk }} Risk
-                    Detected</span>
+            <div class="risk-tags">
+                <div class="risk-chip">
+                    <span>ML Band</span>
+                    <strong>{{ risk }}</strong>
+                </div>
+                <div class="risk-chip">
+                    <span>Clinical Overlay</span>
+                    <strong>{{ clinical_overlay.clinical_band }}</strong>
+                </div>
+                <div class="risk-chip">
+                    <span>Clinical Score</span>
+                    <strong>{{ clinical_overlay.clinical_score }}</strong>
+                </div>
             </div>
 
-            <p style="margin-top: -1.3rem; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+            <p class="decision-line">
                 Decision: <strong>{{ prediction_label }}</strong> at threshold {{ decision_threshold }}%
             </p>
 
-            <div class="metrics-grid-2"
-                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; background: var(--input-bg); padding: 25px; border-radius: 24px; border: 1px solid var(--input-border);">
+            {% if clinical_overlay.urgent_flags %}
+            <div class="urgent-box" role="alert">
+                <strong>Urgent clinical flags:</strong>
+                <ul>
+                    {% for flag in clinical_overlay.urgent_flags %}
+                    <li>{{ flag }}</li>
+                    {% endfor %}
+                </ul>
+                <p>If symptoms are acute or worsening, seek emergency evaluation immediately.</p>
+            </div>
+            {% endif %}
+
+            <div class="metrics-grid-2">
                 <div class="m-box">
-                    <label
-                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">BMI</label>
-                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.bmi }}</span>
+                    <label>BMI</label>
+                    <span>{{ patient_info.bmi }}</span>
                 </div>
                 <div class="m-box">
-                    <label
-                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Cigs/Day</label>
-                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.cigs
-                        }}</span>
+                    <label>Cigs/Day</label>
+                    <span>{{ patient_info.cigs }}</span>
                 </div>
                 <div class="m-box">
-                    <label
-                        style="display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Target
-                        Age</label>
-                    <span style="font-size: 1.6rem; font-weight: 700; color: var(--text);">{{ patient_info.age }}</span>
+                    <label>Age</label>
+                    <span>{{ patient_info.age }}</span>
                 </div>
             </div>
 
-            <div class="info-text"
-                style="margin-top: 2.5rem; color: var(--text-muted); line-height: 1.7; text-align: left; font-size: 0.95rem;">
-                <p><strong>Note:</strong> {{ patient_info.risk_desc }}</p>
-                <p style="margin-top: 15px;">This assessment factors in smoking intensity and multi-symptom diagnostic
-                    indicators not available in earlier versions of StrokeRisk AI.</p>
-                <p style="margin-top: 15px;"><strong>Model:</strong> {{ model_version }}</p>
+            <div class="report-columns">
+                <section class="report-section">
+                    <h3>Main contributing factors</h3>
+                    <ul>
+                        {% for factor in clinical_overlay.factors %}
+                        <li>{{ factor }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="report-section">
+                    <h3>Clinical recommendations</h3>
+                    <ul>
+                        {% for item in clinical_overlay.recommendations %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
             </div>
 
-            <a href="/"
-                style="display: inline-block; margin-top: 3rem; color: var(--primary); text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: 0.3s;">
-                ← New Analysis
-            </a>
+            <div class="info-text">
+                <p><strong>Model version:</strong> {{ model_version }}</p>
+                <p><strong>Technical note:</strong> {{ patient_info.risk_desc }}</p>
+                <p><strong>Generated at (UTC):</strong> {{ generated_at }}</p>
+            </div>
+
+            <a href="/" class="return-link">New Analysis</a>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Utkarsh Yadav | Brain Stroke Risk Predictor 2.0 | Advanced Medical Analytics</p>
+        <p>&copy; 2026 Utkarsh Yadav | StrokeRisk Clinical Assistant</p>
     </footer>
 
     <script>

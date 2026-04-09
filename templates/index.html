@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Stroke Risk Predictor 2.0 | Advanced Health Analytics</title>
+    <title>StrokeRisk Clinical Assistant | Intake and Triage</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -16,127 +16,157 @@
     </div>
 
     <main class="container">
+        {% set form = form_data or {} %}
         <header>
             <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Mode">
                 <span id="theme-icon">🌙</span>
             </button>
-            <div class="badge">v2.0 PROPOSAL VERSION</div>
+            <div class="badge">CLINICAL DECISION SUPPORT</div>
             <div class="logo">
-                <h1>Brain Stroke Risk <span class="ai">Predictor 2.0</span></h1>
+                <h1>StrokeRisk <span class="ai">Clinical Assistant</span></h1>
             </div>
-            <p class="subtitle">Utilizing 2025 Synthetic Data & Framingham Clinical Markers</p>
+            <p class="subtitle">Evidence-aligned intake using calibrated ML probability plus explainable clinical overlay</p>
         </header>
 
         <section class="card glass">
+            {% if error_messages %}
+            <div class="alert-box" role="alert">
+                <h3>Input validation errors</h3>
+                <ul>
+                    {% for err in error_messages %}
+                    <li>{{ err }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
             <form action="/predict" method="post" class="grid-form">
 
-                <!-- Section 1: Demographics -->
-                <div class="form-section-title">Lifestyle & Profile</div>
+                <div class="form-section-title">Patient Profile</div>
 
                 <div class="input-group">
                     <label>Patient Age</label>
-                    <input type="number" name="age" required placeholder="Years">
+                    <input type="number" name="age" required min="0" max="120" step="1" value="{{ form.get('age', '') }}" placeholder="Years">
                 </div>
                 <div class="input-group">
                     <label>Gender</label>
                     <select name="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="Male" {% if form.get('gender') == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if form.get('gender') == 'Female' %}selected{% endif %}>Female</option>
                     </select>
                 </div>
 
                 <div class="input-group">
-                    <label>Cigarettes Per Day 🚬</label>
-                    <input type="number" name="cigs_per_day" required value="0" min="0">
+                    <label>Cigarettes Per Day</label>
+                    <input type="number" name="cigs_per_day" required min="0" max="120" value="{{ form.get('cigs_per_day', 0) }}">
                 </div>
 
                 <div class="input-group">
                     <label>Work Profile</label>
                     <select name="work_type">
-                        <option value="Private">Private</option>
-                        <option value="Govt_job">Government</option>
-                        <option value="Self-employed">Self-employed</option>
-                        <option value="children">Student</option>
+                        <option value="Private" {% if form.get('work_type') == 'Private' %}selected{% endif %}>Private</option>
+                        <option value="Govt_job" {% if form.get('work_type') == 'Govt_job' %}selected{% endif %}>Government</option>
+                        <option value="Self-employed" {% if form.get('work_type') == 'Self-employed' %}selected{% endif %}>Self-employed</option>
+                        <option value="children" {% if form.get('work_type') == 'children' %}selected{% endif %}>Student</option>
                     </select>
                 </div>
 
                 <div class="input-group">
                     <label>Ever Married?</label>
                     <select name="ever_married">
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="Yes" {% if form.get('ever_married') == 'Yes' %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if form.get('ever_married') == 'No' %}selected{% endif %}>No</option>
                     </select>
                 </div>
 
                 <div class="input-group">
                     <label>Residence Type</label>
                     <select name="residence_type">
-                        <option value="Urban">Urban</option>
-                        <option value="Rural">Rural</option>
+                        <option value="Urban" {% if form.get('residence_type') == 'Urban' %}selected{% endif %}>Urban</option>
+                        <option value="Rural" {% if form.get('residence_type') == 'Rural' %}selected{% endif %}>Rural</option>
                     </select>
                 </div>
 
-                <!-- Section 2: Clinical Metrics -->
                 <div class="form-section-title">Clinical Metrics</div>
 
                 <div class="input-group">
                     <label>Weight (kg)</label>
-                    <input type="number" name="weight" id="weight" step="0.1" required>
+                    <input type="number" name="weight" step="0.1" min="25" max="350" required value="{{ form.get('weight', '') }}">
                 </div>
                 <div class="input-group">
                     <label>Height (cm)</label>
-                    <input type="number" name="height" id="height" step="0.1" required>
+                    <input type="number" name="height" step="0.1" min="100" max="250" required value="{{ form.get('height', '') }}">
                 </div>
 
                 <div class="input-group">
                     <label class="check-box">
-                        <input type="checkbox" name="hypertension" value="1">
+                        <input type="checkbox" name="hypertension" value="1" {% if form.get('hypertension') %}checked{% endif %}>
                         <span>Diagnosed Hypertension</span>
                     </label>
                 </div>
                 <div class="input-group">
                     <label class="check-box">
-                        <input type="checkbox" name="heart_disease" value="1">
+                        <input type="checkbox" name="heart_disease" value="1" {% if form.get('heart_disease') %}checked{% endif %}>
                         <span>Heart Disease History</span>
                     </label>
                 </div>
 
                 <div class="input-group">
                     <label>Average Glucose Level (mg/dL)</label>
-                    <input type="number" name="avg_glucose_level" id="glucose" step="0.1" placeholder="e.g. 95.0">
-                    <label class="check-box" style="margin-top: 5px; border:none; padding:0; background:none;">
-                        <input type="checkbox" name="no_test" value="true">
-                        <span style="font-size: 0.75rem;">Not tested (Uses baseline 95.0)</span>
+                    <input type="number" name="avg_glucose_level" step="0.1" min="40" max="600" value="{{ form.get('avg_glucose_level', '') }}" placeholder="e.g. 95.0">
+                    <label class="check-box check-inline">
+                        <input type="checkbox" name="no_test" value="true" {% if form.get('no_test') %}checked{% endif %}>
+                        <span>Not tested (system uses baseline 95.0 mg/dL)</span>
                     </label>
                 </div>
 
-                <!-- Section 3: Diagnostic Symptoms -->
-                <div class="form-section-title">Diagnostic Symptoms (New to 2.0)</div>
+                <div class="input-group">
+                    <label>Sleep Hours / Day</label>
+                    <input type="number" name="sleep_hours" step="0.1" min="0" max="24" value="{{ form.get('sleep_hours', '') }}" placeholder="Optional">
+                </div>
 
-                <div class="symptom-grid"
-                    style="grid-column: 1/-1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <label class="check-box"><input type="checkbox" name="dizziness"> <span>Dizziness</span></label>
-                    <label class="check-box"><input type="checkbox" name="chest_pain"> <span>Chest Pain</span></label>
-                    <label class="check-box"><input type="checkbox" name="breath_shortness"> <span>Shortness of
-                            Breath</span></label>
-                    <label class="check-box"><input type="checkbox" name="fatigue"> <span>Unexplained
-                            Fatigue</span></label>
+                <div class="input-group">
+                    <label>Activity Level</label>
+                    <select name="activity_level">
+                        <option value="Low" {% if form.get('activity_level') == 'Low' %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if form.get('activity_level', 'Medium') == 'Medium' %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if form.get('activity_level') == 'High' %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Alcohol Drinks / Week</label>
+                    <input type="number" name="alcohol_drinks_per_week" step="0.1" min="0" max="80" value="{{ form.get('alcohol_drinks_per_week', 0) }}">
+                </div>
+
+                <div class="input-group">
+                    <label>Stress Level</label>
+                    <select name="stress_level">
+                        <option value="Low" {% if form.get('stress_level') == 'Low' %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if form.get('stress_level', 'Medium') == 'Medium' %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if form.get('stress_level') == 'High' %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="form-section-title">Current Symptoms</div>
+
+                <div class="symptom-grid">
+                    <label class="check-box"><input type="checkbox" name="dizziness" {% if form.get('dizziness') %}checked{% endif %}> <span>Dizziness</span></label>
+                    <label class="check-box"><input type="checkbox" name="chest_pain" {% if form.get('chest_pain') %}checked{% endif %}> <span>Chest Pain</span></label>
+                    <label class="check-box"><input type="checkbox" name="breath_shortness" {% if form.get('breath_shortness') %}checked{% endif %}> <span>Shortness of Breath</span></label>
+                    <label class="check-box"><input type="checkbox" name="fatigue" {% if form.get('fatigue') %}checked{% endif %}> <span>Unexplained Fatigue</span></label>
                 </div>
 
                 <div class="btn-container">
-                    <button type="submit" class="btn-primary">Generate 2.0 Dynamic Assessment</button>
-                    <p style="font-size: 0.75rem; opacity: 0.7; margin-top: 15px; text-align: center;">Advanced
-                        inference
-                        based on 50,000 synthetic clinical records.</p>
-                    <p style="font-size: 0.78rem; opacity: 0.78; margin-top: 6px; text-align: center;">Model training is
-                        only needed when CSV datasets change, not before every run.</p>
+                    <button type="submit" class="btn-primary">Generate Clinical Stroke Risk Report</button>
+                    <p class="helper-text">Model output is supportive only. It does not replace physician diagnosis or emergency assessment.</p>
                 </div>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Utkarsh Yadav | Brain Stroke Risk Predictor 2.0 | Advanced Medical Analytics</p>
+        <p>&copy; 2026 Utkarsh Yadav | StrokeRisk Clinical Assistant</p>
     </footer>
 
     <script>
