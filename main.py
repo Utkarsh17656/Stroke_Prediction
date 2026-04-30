@@ -307,7 +307,7 @@ def _predict_from_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "error_messages": [], "form_data": {}})
+    return templates.TemplateResponse(request=request, name="index.html", context={"request": request, "error_messages": [], "form_data": {}})
 
 
 @app.get("/healthz")
@@ -380,8 +380,9 @@ async def predict(
         errors = _validate_payload(payload)
         if errors:
             return templates.TemplateResponse(
-                "index.html",
-                {
+                request=request,
+                name="index.html",
+                context={
                     "request": request,
                     "error_messages": errors,
                     "form_data": payload,
@@ -390,7 +391,7 @@ async def predict(
             )
 
         result = _predict_from_payload(payload)
-        return templates.TemplateResponse("result.html", {"request": request, **result})
+        return templates.TemplateResponse(request=request, name="result.html", context={"request": request, **result})
     except Exception as e:
         logger.exception("Prediction failure")
         traceback.print_exc()
